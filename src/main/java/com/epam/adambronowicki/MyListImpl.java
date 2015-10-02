@@ -1,9 +1,14 @@
 package com.epam.adambronowicki;
 
+/**
+ * The class implementing MyList interface
+ *
+ * @param <T> the element of the list
+ */
 public class MyListImpl<T> implements MyList<T> {
 
-  private T[] container = (T[]) new Object[10];
-  private int numberOfElements = 0;
+  private T[] list = (T[]) new Object[10];
+  private int numberOfItems = 0;
 
   /**
    * Adds specified item to the list
@@ -11,13 +16,13 @@ public class MyListImpl<T> implements MyList<T> {
    * @param item the item to be added to the list
    */
   public void add(T item) {
-    if (numberOfElements == container.length) {
-      System.arraycopy(container, 0, new Object[container.length * 2], 0,
-          container.length);
+    if (numberOfItems == list.length) {
+      System.arraycopy(list, 0, new Object[list.length * 2], 0,
+          list.length);
     } else {
-      container[numberOfElements] = item;
+      list[numberOfItems] = item;
     }
-    numberOfElements++;
+    numberOfItems++;
   }
 
   /**
@@ -27,7 +32,7 @@ public class MyListImpl<T> implements MyList<T> {
    */
   public T get(int index) {
 
-    return container[index];
+    return list[index];
   }
 
   /**
@@ -37,17 +42,12 @@ public class MyListImpl<T> implements MyList<T> {
    * @return the removed item
    */
   public T remove(int index) throws ArrayIndexOutOfBoundsException {
-    T item;
-    if (index > container.length || index < 0) {
-      throw new ArrayIndexOutOfBoundsException();
-    } else {
-      item = container[index];
-      for (int i = index; i < container.length; i++) {
-        if (i == container.length - 1) {
-          container[i] = null;
-        } else {
-          container[i] = container[i + 1];
-        }
+    T item = list[index];
+    for (int i = index; i < list.length; i++) {
+      if (i == list.length - 1) {
+        list[i] = null;
+      } else {
+        list[i] = list[i + 1];
       }
     }
 
@@ -62,8 +62,8 @@ public class MyListImpl<T> implements MyList<T> {
    */
   public Boolean contains(T item) {
     Boolean containsItem = false;
-    for (int i = 0; i < container.length; i++) {
-      if (container[i] == item) {
+    for (int i = 0; i < list.length; i++) {
+      if (list[i] == item) {
         containsItem = true;
         return containsItem;
       }
