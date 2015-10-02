@@ -2,12 +2,12 @@ package com.epam.adambronowicki;
 
 import java.lang.reflect.Array;
 
-public class ListImpl<T> implements List<T> {
+public class ListByArray<T> implements List<T> {
 
   private T[] array;
   private int numberOfItems = 0;
 
-  public ListImpl(Class<T> choosenClass, int initialCapacity) {
+  public ListByArray(Class<T> choosenClass, int initialCapacity) {
     if (initialCapacity > 0) {
       array = (T[]) Array.newInstance(choosenClass, initialCapacity);
     } else {
