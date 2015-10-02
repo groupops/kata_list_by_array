@@ -8,7 +8,7 @@ public class ListByArray<T> implements List<T> {
   private int numberOfItems = 0;
 
   public ListByArray(Class<T> choosenClass, int initialCapacity) {
-    if (initialCapacity > 0) {
+    if (initialCapacity >= 0) {
       array = (T[]) Array.newInstance(choosenClass, initialCapacity);
     } else {
       throw new IllegalArgumentException("Initial size cannot be less than 0");
@@ -37,7 +37,7 @@ public class ListByArray<T> implements List<T> {
   public T remove(int index) throws IndexOutOfBoundsException {
     checkCapacity(index);
     T item = array[index];
-    for (int i = index; i < array.length; i++) {
+    for (int i = index; i < numberOfItems; i++) {
       if (i == array.length - 1) {
         array[i] = null;
       } else {
@@ -49,7 +49,7 @@ public class ListByArray<T> implements List<T> {
 
   @Override
   public boolean contains(T item) {
-    for (int i = 0; i < array.length; i++) {
+    for (int i = 0; i < numberOfItems; i++) {
       if (array[i].equals(item)) {
         return true;
       }
@@ -58,7 +58,7 @@ public class ListByArray<T> implements List<T> {
   }
 
   private void checkCapacity(int index) {
-    if (index > array.length || index < 0) {
+    if (index > numberOfItems - 1 || index < 0) {
       throw new IndexOutOfBoundsException("Given index exceeds current array.");
     }
   }
