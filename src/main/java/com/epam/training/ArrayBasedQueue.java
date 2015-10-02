@@ -4,35 +4,36 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
-public class ArrayBasedStack<E> implements Stack<E> {
+public class ArrayBasedQueue<E> implements Queue<E> {
     private static final int DEFAULT_CAPACITY = 100;
     private static final int RESIZE_STEP = 100;
-    private E[] elements;
     private int capacity;
+    private E[] elements;
 
     @SuppressWarnings("unchecked")
-    public ArrayBasedStack(Class<E> clazz) {
+    public ArrayBasedQueue(Class<E> clazz) {
         elements = (E[]) Array.newInstance(clazz, DEFAULT_CAPACITY);
     }
 
     @Override
-    public E push(E element) {
+    public boolean add(E element) {
         resizeIfRequired();
         elements[capacity] = element;
         capacity++;
-        return element;
+        return true;
     }
 
     private void resizeIfRequired() {
-        if (capacity == elements.length) {
+        if (elements.length == capacity) {
             elements = Arrays.copyOf(elements, capacity + RESIZE_STEP);
         }
     }
 
     @Override
-    public E pop() {
+    public E remove() {
         checkIfNotEmpty();
-        E removedElement = elements[capacity - 1];
+        E removedElement = elements[0];
+        System.arraycopy(elements, 1, elements, 0, capacity - 1);
         capacity--;
         elements[capacity] = null;
         return removedElement;
@@ -40,13 +41,13 @@ public class ArrayBasedStack<E> implements Stack<E> {
 
     private void checkIfNotEmpty() {
         if (capacity == 0) {
-            throw new NoSuchElementException("Stack is empty!");
+            throw new NoSuchElementException("Queue is empty!");
         }
     }
 
     @Override
-    public E peak() {
+    public E element() {
         checkIfNotEmpty();
-        return elements[capacity - 1];
+        return elements[0];
     }
 }

@@ -2,9 +2,6 @@ package com.epam.training;
 
 import java.util.ArrayList;
 
-/**
- * Created by Dmytro_Ulanovych on 10/2/2015.
- */
 public class ArrayListWrapper<T> implements List<T> {
     private java.util.List<T> list;
 

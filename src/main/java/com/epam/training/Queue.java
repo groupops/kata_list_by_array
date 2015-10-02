@@ -3,7 +3,7 @@ package com.epam.training;
 
 public interface Queue<E> {
 
-    boolean add(E e);
+    boolean add(E element);
 
     E remove();
 

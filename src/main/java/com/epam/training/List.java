@@ -1,8 +1,5 @@
 package com.epam.training;
 
-/**
- * Created by Dmytro_Ulanovych on 10/2/2015.
- */
 public interface List<T> {
 
     void add(T item);
