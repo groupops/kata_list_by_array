@@ -1,28 +1,27 @@
 package kata_list_by_array;
 
 import java.lang.reflect.Array;
+import java.util.Arrays;
 
 public class ListImpl<T> {	
 
-	T[] listByArray;
-	Class<T> clazz;
+	private static final int INITIAL_SIZE = 100; 
+	private T[] listByArray;
+	private Class<T> clazz;
+	private int numberOfElements;
 	
-	public ListImpl(Class<T> clazz/*, int length*/) {
+	public ListImpl(Class<T> clazz) {
 		this.clazz = clazz;
-		listByArray = (T[]) Array.newInstance(clazz, 100);
+		listByArray = (T[]) Array.newInstance(clazz, INITIAL_SIZE);
 	}
 	
 	public void add(T item) {
-		T[] tempArray = (T[]) Array.newInstance(clazz, listByArray.length + 1);
-		
-		for(int i = 0; i < listByArray.length; i++) {
-			tempArray[i] = listByArray[i];
+		if (numberOfElements == listByArray.length) {
+			listByArray = Arrays.copyOf(listByArray, 100);
 		}
 		
-		tempArray[tempArray.length - 1] = item;
-		
-		listByArray = (T[]) Array.newInstance(clazz, tempArray.length);
-		listByArray = tempArray;
+		listByArray[numberOfElements] = item;
+		numberOfElements++;
 	}
 	
 	public T get(int index) {
@@ -30,7 +29,7 @@ public class ListImpl<T> {
 	}
 	
 	public T[] remove(int index) {
-		T[] tempArray = (T[]) Array.newInstance(clazz, listByArray.length - 1);
+		T[] tempArray = (T[]) Array.newInstance(clazz, numberOfElements - 1);
 		
 		for (int i = 0; i < tempArray.length; i++) {
 			if(i < index) {
@@ -40,7 +39,6 @@ public class ListImpl<T> {
 			}
 		}
 		
-		listByArray = (T[]) Array.newInstance(clazz, tempArray.length);
 		listByArray = tempArray;
 		return listByArray;
 	}
