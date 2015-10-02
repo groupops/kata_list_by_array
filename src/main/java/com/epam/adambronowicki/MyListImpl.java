@@ -15,10 +15,10 @@ public class MyListImpl<T> implements MyList<T> {
    *
    * @param item the item to be added to the list
    */
+  @Override
   public void add(T item) {
     if (numberOfItems == list.length) {
-      System.arraycopy(list, 0, new Object[list.length * 2], 0,
-          list.length);
+      System.arraycopy(list, 0, new Object[list.length * 2], 0, list.length);
     } else {
       list[numberOfItems] = item;
     }
@@ -30,8 +30,9 @@ public class MyListImpl<T> implements MyList<T> {
    *
    * @param index the index of the item
    */
+  @Override
   public T get(int index) {
-
+    checkCapacity(index);
     return list[index];
   }
 
@@ -41,7 +42,9 @@ public class MyListImpl<T> implements MyList<T> {
    * @param index the index of the item
    * @return the removed item
    */
-  public T remove(int index) throws ArrayIndexOutOfBoundsException {
+  @Override
+  public T remove(int index) throws IndexOutOfBoundsException {
+    checkCapacity(index);
     T item = list[index];
     for (int i = index; i < list.length; i++) {
       if (i == list.length - 1) {
@@ -50,7 +53,6 @@ public class MyListImpl<T> implements MyList<T> {
         list[i] = list[i + 1];
       }
     }
-
     return item;
   }
 
@@ -60,15 +62,29 @@ public class MyListImpl<T> implements MyList<T> {
    * @param item the specified item
    * @return true if the list contains specified item
    */
+
+  @Override
   public Boolean contains(T item) {
-    Boolean containsItem = false;
     for (int i = 0; i < list.length; i++) {
       if (list[i] == item) {
-        containsItem = true;
-        return containsItem;
+        return true;
       }
     }
-    return containsItem;
+    return false;
+  }
+
+  /**
+   * Checks if given index is in the index range of the list
+   *
+   * @param index the index to be checked
+   * @throws IndexOutOfBoundsException thrown when given index is negative or
+   *                                   greater than the length of the list
+   */
+  private void checkCapacity(int index) throws IndexOutOfBoundsException {
+    if (index > list.length || index < 0) {
+      throw new IndexOutOfBoundsException(
+          "Given index exceeds current list.");
+    }
   }
 
 }
