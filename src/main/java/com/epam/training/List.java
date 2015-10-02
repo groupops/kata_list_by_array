@@ -11,5 +11,5 @@ public interface List<T> {
 
     T remove(int index);
 
-    Boolean contains(T item);
+    boolean contains(T item);
 }

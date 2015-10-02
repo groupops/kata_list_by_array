@@ -1,25 +1,27 @@
 package com.epam.training;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 /**
  * List which is based on Array
  */
 public class ArrayBasedList<T> implements List<T> {
-    private static final Object[] DEFAULT_LIST = new Object[10];
-    private Object[] array;
+    private static final int DEFAULT_LIST_SIZE = 100;
+    private static final int RESIZING_STEP = 100;
+    private T[] array;
     private int capacity;
 
 
-    public ArrayBasedList() {
-        array = DEFAULT_LIST;
+    @SuppressWarnings("unchecked")
+    public ArrayBasedList(Class<T> instanceClass) {
+        array = (T[]) Array.newInstance(instanceClass, DEFAULT_LIST_SIZE);
     }
 
-    public ArrayBasedList(int initialCapacity) {
-        if (initialCapacity > 0) {
-            array = new Object[initialCapacity];
-        } else if (initialCapacity == 0) {
-            array = DEFAULT_LIST;
+    @SuppressWarnings("unchecked")
+    public ArrayBasedList(Class<T> instanceClass, int initialCapacity) {
+        if (initialCapacity >= 0) {
+            array = (T[]) Array.newInstance(instanceClass, initialCapacity);
         } else {
             throw new IllegalArgumentException("Initial size can't be less then 0");
         }
@@ -35,24 +37,23 @@ public class ArrayBasedList<T> implements List<T> {
         capacity++;
     }
 
+    @SuppressWarnings("unchecked")
     private void resize() {
-        Object[] newArray = new Object[capacity + 10];
+        T[] newArray = (T[]) Array.newInstance(array.getClass(), capacity + RESIZING_STEP);
         System.arraycopy(array, 0, newArray, 0, array.length);
         array = newArray;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public T get(int index) {
         checkCapacity(index);
-        return (T) array[index];
+        return array[index];
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public T remove(int index) {
         checkCapacity(index);
-        T elementToBeRemoved = (T) array[index];
+        T elementToBeRemoved =  array[index];
         if (index != capacity) {
             System.arraycopy(array, index + 1, array, index, capacity - index - 1);
         }
@@ -68,7 +69,7 @@ public class ArrayBasedList<T> implements List<T> {
     }
 
     @Override
-    public Boolean contains(T item) {
-        return Arrays.binarySearch(array, item) > -1;
+    public boolean contains(T item) {
+        return item != null && Arrays.stream(array).anyMatch(item::equals);
     }
 }
