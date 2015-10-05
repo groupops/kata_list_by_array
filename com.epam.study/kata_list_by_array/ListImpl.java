@@ -7,11 +7,9 @@ public class ListImpl<T> implements CustomList<T> {
 
 	private static final int INITIAL_SIZE = 100; 
 	private T[] listByArray;
-	private Class<T> clazz;
 	private int numberOfElements;
 	
 	public ListImpl(Class<T> clazz) {
-		this.clazz = clazz;
 		listByArray = (T[]) Array.newInstance(clazz, INITIAL_SIZE);
 	}
 	
