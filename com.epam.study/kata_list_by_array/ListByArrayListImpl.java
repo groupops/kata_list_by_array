@@ -2,9 +2,9 @@ package kata_list_by_array;
 
 import java.util.ArrayList;
 
-public class ListByArrayListImpl<T> implements List<T> {
+public class ListByArrayListImpl<T> implements CustomList<T> {
 
-	private List<T> listByArrayList = (List<T>) new ArrayList<T>();
+	private CustomList<T> listByArrayList = (CustomList<T>) new ArrayList<T>();
 	
 	public void add(T item) {
 		listByArrayList.add(item);
@@ -14,7 +14,7 @@ public class ListByArrayListImpl<T> implements List<T> {
 		return listByArrayList.get(index);
 	}
 
-	public T[] remove(int index) {
+	public T remove(int index) {
 		return listByArrayList.remove(index);
 	}
 
