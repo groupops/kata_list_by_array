@@ -8,6 +8,7 @@ public class ArrayBasedQueue<E> implements Queue<E> {
   private Class<E> genericClassOfE;
   private int indexOfLastElement = -1;
 
+  @SuppressWarnings("unchecked")
   public ArrayBasedQueue(Class<E> genericClassOfE, int capacity) {
     this.genericClassOfE = genericClassOfE;
     internalQueue = (E[]) Array.newInstance(genericClassOfE, capacity);
@@ -29,8 +30,9 @@ public class ArrayBasedQueue<E> implements Queue<E> {
     for (int i = 0; i < indexOfLastElement; i++) {
       internalQueue[i] = internalQueue[i + 1];
     }
-    if (indexOfLastElement / 2 <= internalQueue.length) {
-      resizeInternalQueue(indexOfLastElement / 2);
+    indexOfLastElement--;
+    if (indexOfLastElement * 2 < internalQueue.length) {
+      resizeInternalQueue(internalQueue.length / 2);
     }
     return item;
   }
@@ -40,12 +42,31 @@ public class ArrayBasedQueue<E> implements Queue<E> {
     return internalQueue[0];
   }
 
+  @SuppressWarnings("unchecked")
   private void resizeInternalQueue(int newCapacity) {
     E[] tempInternalStack =
         (E[]) Array.newInstance(genericClassOfE, newCapacity);
     System.arraycopy(internalQueue, 0, tempInternalStack, 0,
-        internalQueue.length);
+        indexOfLastElement);
     this.internalQueue = tempInternalStack;
+  }
+
+  @Override
+  public String toString(){
+    StringBuilder stringBuilder = new StringBuilder("[");
+
+    for(int i=0; i<indexOfLastElement +1; i++){
+      stringBuilder.append(internalQueue[i].toString());
+      if(i<indexOfLastElement)
+        stringBuilder.append(", ");
+    }
+    stringBuilder.append("]");
+
+    return stringBuilder.toString();
+  }
+
+  public int size(){
+    return indexOfLastElement + 1;
   }
 
 }

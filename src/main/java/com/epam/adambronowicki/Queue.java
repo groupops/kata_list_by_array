@@ -8,4 +8,6 @@ public interface Queue<E> {
 
   E element();
 
+  int size();
+
 }
