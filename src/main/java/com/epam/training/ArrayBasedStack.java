@@ -2,7 +2,6 @@ package com.epam.training;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.NoSuchElementException;
 
 public class ArrayBasedStack<E> implements Stack<E> {
     private static final int DEFAULT_CAPACITY = 100;
@@ -31,22 +30,20 @@ public class ArrayBasedStack<E> implements Stack<E> {
 
     @Override
     public E pop() {
-        checkIfNotEmpty();
-        E removedElement = elements[capacity - 1];
-        capacity--;
-        elements[capacity] = null;
-        return removedElement;
-    }
-
-    private void checkIfNotEmpty() {
-        if (capacity == 0) {
-            throw new NoSuchElementException("Stack is empty!");
+        E elementToReturn = null;
+        if (capacity > 0) {
+            elementToReturn = elements[capacity - 1];
+            capacity--;
+            elements[capacity] = null;
         }
+        return elementToReturn;
     }
 
     @Override
     public E peak() {
-        checkIfNotEmpty();
-        return elements[capacity - 1];
+        if (capacity > 0) {
+            return elements[capacity - 1];
+        }
+        return null;
     }
 }

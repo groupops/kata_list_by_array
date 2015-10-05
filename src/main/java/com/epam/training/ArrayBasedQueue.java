@@ -2,7 +2,6 @@ package com.epam.training;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.NoSuchElementException;
 
 public class ArrayBasedQueue<E> implements Queue<E> {
     private static final int DEFAULT_CAPACITY = 100;
@@ -31,23 +30,21 @@ public class ArrayBasedQueue<E> implements Queue<E> {
 
     @Override
     public E remove() {
-        checkIfNotEmpty();
-        E removedElement = elements[0];
-        System.arraycopy(elements, 1, elements, 0, capacity - 1);
-        capacity--;
-        elements[capacity] = null;
-        return removedElement;
-    }
-
-    private void checkIfNotEmpty() {
-        if (capacity == 0) {
-            throw new NoSuchElementException("Queue is empty!");
+        E removedElement = null;
+        if (capacity > 0) {
+            removedElement = elements[0];
+            System.arraycopy(elements, 1, elements, 0, capacity - 1);
+            capacity--;
+            elements[capacity] = null;
         }
+        return removedElement;
     }
 
     @Override
     public E element() {
-        checkIfNotEmpty();
-        return elements[0];
+        if (capacity > 0) {
+            return elements[0];
+        }
+        return null;
     }
 }
