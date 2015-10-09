@@ -7,9 +7,10 @@ public class ArrayBasedStack<E> implements Stack<E> {
 
   private E[] internalStack;
   private Class<E> genericClassOfE;
+  private int capacity = 10;
   private int indexOfLastElement = -1;
 
-  public ArrayBasedStack(Class<E> genericClassOfE, int capacity) {
+  public ArrayBasedStack(Class<E> genericClassOfE) {
     this.genericClassOfE = genericClassOfE;
     internalStack = (E[]) Array.newInstance(genericClassOfE, capacity);
   }
