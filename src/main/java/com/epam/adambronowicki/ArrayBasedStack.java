@@ -1,6 +1,7 @@
 package com.epam.adambronowicki;
 
 import java.lang.reflect.Array;
+import java.util.Arrays;
 
 public class ArrayBasedStack<E> implements Stack<E> {
 
@@ -17,27 +18,28 @@ public class ArrayBasedStack<E> implements Stack<E> {
   public void push(E item) {
     indexOfLastElement++;
     if (indexOfLastElement >= internalStack.length) {
-      resizeInternalArray(indexOfLastElement + 1);
+      resizeInternalArray(indexOfLastElement * 2);
     }
     internalStack[indexOfLastElement] = item;
   }
 
   private void resizeInternalArray(int newCapacity) {
-    E[] tempInternalStack = (E[]) Array.newInstance(genericClassOfE, newCapacity);
+    E[] tempInternalStack =
+        (E[]) Array.newInstance(genericClassOfE, newCapacity);
     System.arraycopy(internalStack, 0, tempInternalStack, 0,
-        internalStack.length);
+        indexOfLastElement);
     this.internalStack = tempInternalStack;
   }
 
   @Override
   public E pop() {
     E poppedItem = null;
-    // if the stack is not empty
     if (indexOfLastElement > -1) {
-      // get the last added element
       poppedItem = internalStack[indexOfLastElement];
-      // then remove the element
       internalStack[indexOfLastElement] = null;
+      if (indexOfLastElement * 2 < internalStack.length) {
+        resizeInternalArray(internalStack.length / 2);
+      }
       indexOfLastElement--;
     }
     return poppedItem;
@@ -47,12 +49,19 @@ public class ArrayBasedStack<E> implements Stack<E> {
   @Override
   public E peek() {
     E peekedItem = null;
-    // if stack is not empty then return the top most element
     if (indexOfLastElement > -1) {
       peekedItem = internalStack[indexOfLastElement];
     }
-    // otherwise return null
     return peekedItem;
   }
 
+  @Override
+  public int size() {
+    return indexOfLastElement + 1;
+  }
+
+  @Override
+  public String toString() {
+    return Arrays.toString(internalStack);
+  }
 }
