@@ -2,10 +2,12 @@ package com.epam.adambronowicki;
 
 public interface Stack<E> {
 
-  void push(E item);
+    E push(E item);
 
-  E pop();
+    E pop();
 
-  E peek();
+    E peek();
+
+    int size();
 
 }
