@@ -13,7 +13,7 @@ public class ListByArrayTest {
 
   @Before
   public void setUp() {
-    list = new ListByArray<>(String.class);
+    list = new ListByArray<>();
   }
 
   @Test
@@ -25,8 +25,25 @@ public class ListByArrayTest {
 
     assertEquals(list.get(0), "this");
     assertEquals(list.get(1), "is");
-    assertEquals(list.get(2), "simple");
-    assertEquals(list.get(3), "test");
+  }
+
+  @Test
+  public void testAddMany() {
+    list.add("a");
+    list.add("b");
+    list.add("c");
+    list.add("d");
+    list.add("e");
+    list.add("f");
+    list.add("g");
+    list.add("h");
+    list.add("i");
+    list.add("j");
+    list.add("k");
+    list.add("l");
+
+    assertEquals(list.get(10), "k");
+    assertEquals(list.get(11), "l");
   }
 
   @Test
@@ -43,20 +60,22 @@ public class ListByArrayTest {
   }
 
   @Test(expected = IndexOutOfBoundsException.class)
-  public void testGetTooLowIndexOfList(){
+  public void testGetTooLowIndexOfList() {
     list.add("this");
     list.add("is");
     list.add("simple");
     list.add("test");
+
     list.get(-1);
   }
 
   @Test(expected = IndexOutOfBoundsException.class)
-  public void testGetTooHighIndexOfList(){
+  public void testGetTooHighIndexOfList() {
     list.add("this");
     list.add("is");
     list.add("simple");
     list.add("test");
+
     list.get(4);
   }
 
@@ -70,7 +89,34 @@ public class ListByArrayTest {
     list.add("removing");
 
     list.remove(5);
+
     assertFalse(list.contains("removing"));
+  }
+
+  @Test
+  public void testRemoveMany() {
+    list.add("a");
+    list.add("b");
+    list.add("c");
+    list.add("d");
+    list.add("e");
+    list.add("f");
+    list.add("g");
+    list.add("h");
+    list.add("i");
+    list.add("j");
+    list.add("k");
+    list.add("l");
+
+    list.remove(0);
+    list.remove(0);
+    list.remove(0);
+    list.remove(0);
+
+    assertFalse(list.contains("a"));
+    assertFalse(list.contains("b"));
+    assertFalse(list.contains("c"));
+    assertFalse(list.contains("d"));
   }
 
   @Test
@@ -83,6 +129,7 @@ public class ListByArrayTest {
   @Test(expected = IllegalArgumentException.class)
   public void testContainsNull() {
     list.add("a");
+
     list.contains(null);
   }
 

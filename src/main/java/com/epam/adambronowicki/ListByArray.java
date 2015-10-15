@@ -1,15 +1,13 @@
 package com.epam.adambronowicki;
 
-import java.lang.reflect.Array;
-
 public final class ListByArray<TItem> implements List<TItem> {
 
   private TItem[] array;
   private final int initialCapacity = 10;
   private int size = 0;
 
-  public ListByArray(Class<TItem> choosenClass) {
-    array = (TItem[]) Array.newInstance(choosenClass, initialCapacity);
+  public ListByArray() {
+    array = (TItem[]) new Object[initialCapacity];
   }
 
   @Override
@@ -17,6 +15,7 @@ public final class ListByArray<TItem> implements List<TItem> {
     checkForNull(item);
     if (size == array.length) {
       enlargeList();
+      array[size] = item;
     } else {
       array[size] = item;
     }
@@ -33,6 +32,9 @@ public final class ListByArray<TItem> implements List<TItem> {
   public void remove(int index) throws IndexOutOfBoundsException {
     checkCapacity(index);
     TItem item = array[index];
+    if (size == array.length / 2) {
+      reduceList();
+    }
     for (int i = index; i < size; i++) {
       if (i == array.length - 1) {
         array[i] = null;
@@ -69,9 +71,15 @@ public final class ListByArray<TItem> implements List<TItem> {
   }
 
   private void enlargeList() {
-    TItem[] newArray =
-        (TItem[]) Array.newInstance(array.getClass(), array.length * 2);
-    System.arraycopy(array, 0, newArray, 0, array.length);
+    TItem[] newArray = (TItem[]) new Object[array.length * 2];
+    System.arraycopy(array, 0, newArray, 0, size);
+    array = newArray;
+  }
+
+  private void reduceList() {
+    TItem[] newArray = (TItem[]) new Object[array.length / 2];
+    System.arraycopy(array, 0, newArray, 0, size);
+    array = newArray;
   }
 
 }
