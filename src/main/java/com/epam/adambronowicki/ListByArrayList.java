@@ -2,7 +2,7 @@ package com.epam.adambronowicki;
 
 import java.util.ArrayList;
 
-public class ListByArrayList<T> implements List<T> {
+public final class ListByArrayList<T> implements List<T> {
 
   private java.util.List<T> list;
 
@@ -21,8 +21,8 @@ public class ListByArrayList<T> implements List<T> {
   }
 
   @Override
-  public T remove(int index) {
-    return list.remove(index);
+  public void remove(int index) {
+    list.remove(index);
   }
 
   @Override

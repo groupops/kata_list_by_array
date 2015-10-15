@@ -1,13 +1,13 @@
 package com.epam.adambronowicki;
 
-public interface List<T> {
+public interface List<TItem> {
 
-  void add(T item);
+  void add(TItem item);
 
-  T get(int index);
+  TItem get(int index);
 
-  T remove(int index);
+  void remove(int index);
 
-  boolean contains(T item);
+  boolean contains(TItem item);
 
 }
