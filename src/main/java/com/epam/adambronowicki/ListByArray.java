@@ -3,10 +3,11 @@ package com.epam.adambronowicki;
 public final class ListByArray<TItem> implements List<TItem> {
 
   private TItem[] array;
-  private final int initialCapacity = 10;
   private int size = 0;
 
+  @SuppressWarnings("unchecked")
   public ListByArray() {
+    int initialCapacity = 10;
     array = (TItem[]) new Object[initialCapacity];
   }
 
@@ -31,7 +32,6 @@ public final class ListByArray<TItem> implements List<TItem> {
   @Override
   public void remove(int index) throws IndexOutOfBoundsException {
     checkCapacity(index);
-    TItem item = array[index];
     if (size == array.length / 2) {
       reduceList();
     }
@@ -70,12 +70,14 @@ public final class ListByArray<TItem> implements List<TItem> {
     }
   }
 
+  @SuppressWarnings("unchecked")
   private void enlargeList() {
     TItem[] newArray = (TItem[]) new Object[array.length * 2];
     System.arraycopy(array, 0, newArray, 0, size);
     array = newArray;
   }
 
+  @SuppressWarnings("unchecked")
   private void reduceList() {
     TItem[] newArray = (TItem[]) new Object[array.length / 2];
     System.arraycopy(array, 0, newArray, 0, size);
